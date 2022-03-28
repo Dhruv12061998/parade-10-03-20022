@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)https://www.w3schools.com/w3css/tryw3css_templates_portfolio.htm -->
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>PARADE - Home</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./index_files/parade.css">
+  <link rel="stylesheet" href="./index_files/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  <script src="controller.js"></script>
+  <style>
+    /* body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif} */
+    p {
+      text-align: justify;
+    }
+  </style>
+  <style></style>
+</head>
+
+<body class="w3-light-grey w3-content" ng-app="parade" ng-controller="paradeCtrl" style="max-width:1600px"
+  data-new-gr-c-s-check-loaded="14.1049.0" data-gr-ext-installed="" cz-shortcut-listen="true">
+  <div id="snackbar"></div>
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <div class="w3-container">
+      <a href="#" onclick="" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="close menu">
+        <i class="fa fa-remove"></i>
+      </a>
+      <img src="data.png" style="width:250px;" class="w3-round"><br><br>
+      <h4><b ng-show="loggedin">Hi, {{loginUserData.fname+" "+loginUserData.lname}}</b></h4>
+    </div>
+    <div class="w3-bar-block">
+      <a href="#" onclick="" class="w3-bar-item w3-button w3-padding w3-text-teal" ng-click="changeContent(1)"><i
+          class="fa fa-th-large fa-fw w3-margin-right"></i>PARADE</a>
+      <a href="#" onclick="" class="w3-bar-item w3-button w3-padding" ng-click="changeContent(6)"><i
+          class="fa fa-lock fa-fw w3-margin-right"></i>ABOUT</a>
+      <a href="#" onclick="document.getElementById('id02').style.display='block'"
+        class="w3-bar-item w3-button w3-padding" ng-if="!loggedin"><i
+          class="fa fa-file fa-fw w3-margin-right"></i>REGISTER</a>
+      <a href="#" onclick="document.getElementById('id01').style.display='block'"
+        class="w3-bar-item w3-button w3-padding" ng-if="!loggedin"><i
+          class="fa fa-user fa-fw w3-margin-right"></i>LOGIN</a>
+      <a href="#" onclick="" class="w3-bar-item w3-button w3-padding" ng-click="changeContent(2)" ng-if="loggedin"><i
+          class="fa fa-heart fa-fw w3-margin-right"></i>MY ARTICLES</a>
+      <a href="#" onclick="" class="w3-bar-item w3-button w3-padding" ng-click="changeContent(3)" ng-if="loggedin"><i
+          class="fa fa-sign-in fa-fw w3-margin-right" ng-click="changeContent(3)"></i>RECIEVED REQUESTS</a>
+      <a href="#" onclick="" class="w3-bar-item w3-button w3-padding" ng-click="changeContent(4)" ng-if="loggedin"><i
+          class="fa fa-sign-out fa-fw w3-margin-right" ng-click="changeContent(4)"></i>SENT REQUESTS</a>
+      <a href="#" class="w3-bar-item w3-button w3-padding" ng-click="logout()" ng-if="loggedin"><i
+          class="fa fa-user fa-fw w3-margin-right"></i>LOGOUT</a>
+    </div>
+
+    <!--<div class="w3-panel w3-large">
+    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-snapchat w3-hover-opacity"></i>
+    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+    <i class="fa fa-twitter w3-hover-opacity"></i>
+    <i class="fa fa-linkedin w3-hover-opacity"></i>
+  </div>-->
+  </nav>
+
+  <!-- !PAGE CONTENT! -->
+  <div class="w3-main w3-animate-zoom" style="margin-left:300px" ng-if="showcontent==1">
+
+    <!-- Header -->
+    <header id="portfolio ">
+      <div class="w3-container  w3-bottombar w3-margin-bottom">
+        <h1><b>PARADE (ALL ARTICLES)</b></h1>
+        <div class="w3-section  ">
+          <div class="w3-quarter  w3-margin-bottom">           
+              <label><b>Search Tag:</b></label>
+              <input class="w3-input w3-border " type="text" placeholder="Enter Tag"
+                ng-model="searchtag" name="lname" required>              
+           
+          </div>
+          <div class="w3-quarter w3-container w3-margin-bottom">           
+            <label><b>Published From</b></label>
+            <input class="w3-input w3-border " type="date" placeholder="Select Date"
+              ng-model="regdata.lname" name="lname" required>              
+         
+          </div>
+          <div class="w3-quarter w3-container w3-margin-bottom">           
+            <label><b>Published To:</b></label>
+            <input class="w3-input w3-border " type="date" placeholder="Select Date"
+              ng-model="regdata.lname" name="lname" required>  
+          </div>
+          <div class="w3-quarter w3-container w3-margin-bottom w3-margin-top">                     
+            <button class="w3-button w3-black w3-input" ng-click="getAllArticlesByTag(searchtag)">FETCH</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- First Photo Grid-->
+    <div class="w3-row-padding">
+      <div class="w3-third w3-container w3-margin-bottom" ng-repeat="article in allArticles">
+        <img src="./index_files/mountains.jpg" alt="Norway" style="width:100%" class="w3-hover-opacity">
+        <div class="w3-container w3-white">
+          <p><b ng-bind="'#'+article.partId+' '+article.title"></b></p>
+          <p ng-bind="article.description"></p>
+          <p><i class="fa fa-tag"></i> Tags : <em ng-repeat="tag in article.tags" ng-bind="tag.tag+', '"></em> </p>
+          <p><span style="float: left;margin:5px"><i class="fa fa-clock-o"></i>{{article.readtime}}</span><span
+              style="float: right;margin:5px"><i class="fa fa-user"></i>
+              &nbsp;{{article.owner.fname}}&nbsp;{{article.owner.lname}}</span></p><br>
+              <p>
+                <i>Published on: {{article.createdAt}}</i>
+              </p>
+          <div style="height: 80px;">
+            <button ng-if="loggedin && (article.owner.userid != loginUserData.userid)"
+              ng-click="sendRequest(article.partId,'Please accept Request')" class="reqest_btn">REQUEST ACCESS</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Pagination -->
+
+    <div class="w3-black w3-center w3-padding-24">Designed by <a href="#" title="" class="w3-hover-opacity">UHCL</a>
+    </div>
+
+    <!-- End page content -->
+
+  </div>
+
+
+  <div ng-if="showcontent==2" class="w3-main w3-animate-zoom" style="margin-left:300px;padding:10px">
+
+    <!-- Header -->
+    <header id="portfolio">
+      <div class="w3-container">
+        <h1><b>MY ARTICLES</b></h1>
+      </div>
+    </header>
+
+    <div class="w3-row-padding">
+      <div class="w3-third w3-container w3-margin-bottom" ng-repeat="article in myArticles">
+        <img src="./index_files/mountains.jpg" alt="Norway" style="width:100%" class="w3-hover-opacity">
+        <div class="w3-container w3-white">
+          <p><b ng-bind="'#'+article.partId+' '+article.title"></b></p>
+          <p ng-bind="article.description"></p>
+          <p><i class="fa fa-tag"></i> Tags : <em ng-repeat="tag in article.tags" ng-bind="tag.tag+','"></em> </p>
+          <p><span style="float: left;margin:5px"><i class="fa fa-clock-o"></i>{{article.readtime}}</span><span
+              style="float: right;margin:5px"><i class="fa fa-user"></i>
+              &nbsp;{{article.owner.fname}}&nbsp;{{article.owner.lname}}</span></p>
+          <div ng-if="loggedin && (article.owner.userid != loginUserData.userid)">
+            <button ng-click="sendRequest(article.partId,'Please accept Request')" class="reqest_btn">REQUEST
+              ACCESS</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="kc_fab_main_btn" ng-click="changeContent(5)">+</button>
+  </div>
+
+  <div ng-if="showcontent==3" class="w3-main w3-animate-zoom" style="margin-left:300px;padding:10px">
+    <header id="portfolio">
+      <div class="w3-container">
+        <h1><b>RECIEVED REQUESTS</b></h1>
+      </div>
+    </header>
+    <div>
+
+
+      <table>
+        <thead>
+          <tr>
+            <th>S No.</th>
+            <th>Request From</th>
+            <th>Request Article</th>
+            <th>Requested At</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="recReq in recievedRequests">
+            <td ng-bind="recReq.parId"></td>
+            <td ng-bind="recReq.requestedUser.fname+' '+recReq.requestedUser.lname"></td>
+            <td ng-bind="recReq.article.partId+'# '+recReq.article.title"></td>
+            <td ng-bind="recReq.requestedAt | date"></td>
+            <td><span ng-if="recReq.requestStatus=='REQUESTED'"><button class="apr_btn"
+                  ng-click="approveReq($index,recReq.parId)">APPROVE</button> <button class="rej_btn"
+                  ng-click="rejectReq($index,recReq.parId)">REJECT</button> </span>
+              <span ng-if="recReq.requestStatus=='REJECTED'" ng-bind="recReq.requestStatus" style="color:red"></span>
+              <span ng-if="recReq.requestStatus=='ACCEPTED'" ng-bind="recReq.requestStatus" style="color:green"></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+
+
+
+
+    </div>
+
+  </div>
+
+  <div ng-if="showcontent==4" class="w3-main w3-animate-zoom" style="margin-left:300px;padding:10px">
+    <header id="portfolio">
+      <div class="w3-container">
+        <h1><b>SENT REQUESTS</b></h1>
+      </div>
+    </header>
+
+    <div>
+
+
+      <table>
+        <thead>
+          <tr>
+            <th>S No.</th>
+            <th>Request To</th>
+            <th>Request Article</th>
+            <th>Requested At</th>
+            <th>Status</th>
+            <th>DOWNLOAD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="recSent in sentRequests">
+            <td ng-bind="recSent.parId"></td>
+            <td ng-bind="recSent.article.owner.fname+' '+recSent.article.owner.lname"></td>
+            <td ng-bind="recSent.article.partId+'# '+recSent.article.title"></td>
+            <td ng-bind="recSent.requestedAt | date"></td>
+            <td>
+              <span ng-if="recSent.requestStatus=='REQUESTED'" ng-bind="recSent.requestStatus"></span>
+              <span ng-if="recSent.requestStatus=='REJECTED'" ng-bind="recSent.requestStatus" style="color:red"></span>
+              <span ng-if="recSent.requestStatus=='ACCEPTED'" ng-bind="recSent.requestStatus"
+                style="color:green"></span>
+            </td>
+            <td>
+              <span ng-if="recSent.requestStatus!='ACCEPTED'">NA</span>
+              <a ng-if="recSent.requestStatus=='ACCEPTED'" download
+                href="{{baseurl}}article/download/{{recSent.parId}}">DOWNLOAD</a>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+
+
+
+
+
+    </div>
+  </div>
+
+  <div ng-if="showcontent==5" class="w3-main w3-animate-zoom" style="margin-left:300px;padding:10px">
+    <header id="portfolio">
+      <div class="w3-container">
+        <h1><b>ADD ARTICLE</b></h1>
+      </div>
+    </header>
+
+    <div class="w3-modal-content w3-animate-zoom" style="width: 100%;margin: 0px;">
+
+      <form class="w3-container" ng-submit="submitArticle()">
+        <div class="w3-section">
+          <label><b>Title</b></label>
+          <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Article Title"
+            ng-model="regdata.fname" name="fname" required>
+          <label><b>Description</b></label>
+          <textarea class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Article Description"
+            ng-model="regdata.lname" name="lname" required></textarea>
+          <label><b>Read Time</b></label>
+          <input class="w3-input w3-border" type="password" placeholder="Article Readtime" name="psw"
+            ng-model="regdata.password" required>
+          <label><b>Tags</b></label>
+          <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Tags : Saperated by Comma (,)"
+            ng-model="regdata.studentId" name="studentId" required>
+          <label><b>Attachment</b></label>
+          <input class="w3-input w3-border w3-margin-bottom" type="file" ng-file-select="onFileSelect($files)" file-model="articleFile" placeholder="Enter Student"
+            ng-model="regdata.studentId" name="studentId" required>
+
+          <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">Submit Article</button>
+        </div>
+      </form>
+
+
+    </div>
+
+
+  </div>
+
+  <div ng-if="showcontent==6" class="w3-main w3-animate-zoom" style="margin-left:300px;padding:10px">
+    <header id="portfolio">
+      <div class="w3-container">
+        <h1><b>ABOUT PARADE</b></h1>
+      </div>
+    </header>
+
+    <div class="w3-row-padding">
+      <h3>Outline</h3>
+      <p> The current article management and research system can be complicated and requires a lot of bureaucracy. It is
+        a complicated process and costs much time and resources for researchers. Article Management can be used to
+        potentially improve the transparency of those systems and make end to- end t trans-discipline research easily
+        done online. The platform should require fewer Intermediaries such as general Users and Account user.</p>
+
+    </div>
+
+    <hr>
+
+    <div class="w3-row-padding">
+      <h3>Scope</h3>
+      <p>Our project presents heading for the advancement of various discipline. It likewise shows its ID elements,
+        assets, and shortcomings, as well as the critical job trans-disciplinarily plays in science and schooling. The
+        strategy utilized in our application is a substance investigation of goals The ensuing utilization of
+        distributed articles by different writers in this manner represented a few ambiguities about the spot and job of
+        trans disciplinarily in science and instruction. The coming of e-data sets can has made it conceivable to get to
+        the first discussion articles. This further made it conceivable to refine the first substance of the expression
+        "trans-disciplinarily" and to follow its advancement without blending it in with unclear feelings. These
+        directions have individual objectives and goals. The trans-disciplinarily of logical examination assists with
+        finishing the change of the potential for interdisciplinary collaboration and the mix of disciplines</p>
+
+    </div>
+    <hr>
+    <div class="w3-row-padding">
+      <h3>Proposed Solution</h3>
+      <p> We propose an Article Management System which is an online platform for researcher’s process that articles
+        with the general operational exercises and procedures, beginning from the administration of the content, to the
+        administration of trans-discipline, researchers. It gives far-reaching reports to dealing with trans- discipline
+        articles and effectiveness and empowers the administration for a better dynamic. As proof of concept, we will be
+        building up an application with insignificant highlights of referenced previously. Prototype consists of
+        Intermediaries of content sharing. By doing so, trans-discipline research can be made with more transparency and
+        reduces lots of manual and paper work. All the records will be easy to maintain.</p>
+
+    </div>
+    <div class="w3-row-padding">
+      <h3>Team</h3>
+      <ul>
+        <li><b></b>Sahithi - 123ASDF</b> -<i> Role</i></li>
+        <li><b></b>Pranav - 113A5DF</b> -<i> Role</i></li>
+        <li><b></b>Team Meber 3 - 123ASDF</b> -<i> Role</i></li>
+        <li><b></b>Team Meber 4 - 123ASDF</b> -<i> Role</i></li>
+
+      </ul>
+
+    </div>
+
+  </div>
+  </div>
+
+
+
+  <div id="id01" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+
+      <div class="w3-center"><br>
+        <span onclick="document.getElementById('id01').style.display='none'"
+          class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">×</span>
+        <img src="data.png" alt="Avatar" style="width:30%" class="w3-circle w3-margin-top">
+      </div>
+
+      <form class="w3-container" ng-submit="login()">
+        <div class="w3-section">
+          <label><b>Username</b></label>
+          <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Username"
+            ng-model="logindata.username" name="usrname" required>
+          <label><b>Password</b></label>
+          <input class="w3-input w3-border" type="password" placeholder="Enter Password" name="pswd"
+            ng-model="logindata.password" required>
+
+          <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">Login</button>
+        </div>
+      </form>
+
+      <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+        <button onclick="document.getElementById('id01').style.display='none'" type="button"
+          class="w3-button w3-red">Cancel</button>
+        <span class="w3-right w3-padding w3-hide-small">Forgot <a href="#"
+            onclick="showSnackbar('Under development','green')">password?</a></span>
+      </div>
+
+    </div>
+  </div>
+  <div id="id02" class="w3-modal">
+    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+
+      <div class="w3-center"><br>
+        <span onclick="document.getElementById('id02').style.display='none'"
+          class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Close Modal">×</span>
+        <img src="data.png" alt="Avatar" style="width:30%" class="w3-circle w3-margin-top">
+      </div>
+
+      <form class="w3-container" ng-submit="register()">
+        <div class="w3-section">
+          <label><b>First Name</b></label>
+          <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter first name"
+            ng-model="regdata.fname" name="fname" required>
+          <label><b>Last Name</b></label>
+          <input class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter last name"
+            ng-model="regdata.lname" name="lname" required>
+          <label><b>Password</b></label>
+          <input class="w3-input w3-border" type="password" placeholder="Enter Password" name="psw"
+            ng-model="regdata.password" required>
+          <label><b>Profession</b></label>
+          <select class="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Student"
+            ng-model="regdata.studentId" name="studentId" required>
+            <option>Student</option>
+            <option>Graduate</option>
+            <option>PostGraduate</option>
+            <option>Working Employee</option>
+
+          </select>
+          <label><b>Email (Username)</b></label>
+          <input class="w3-input w3-border w3-margin-bottom" type="email" placeholder="Enter email"
+            ng-model="regdata.email" name="email" required>
+          <label><b>Phone</b></label>
+          <input class="w3-input w3-border w3-margin-bottom" type="phone" placeholder="Enter phone"
+            ng-model="regdata.phone" name="phone" required>
+          <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">Register</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <script>
+    // Script to open and close sidebar
+    function showSnackbar(text, color) {
+      // Get the snackbar DIV
+      var x = document.getElementById("snackbar");
+
+      // Add the "show" class to DIV
+      x.className = "show";
+      x.innerHTML = text;
+      x.style.background = color;
+
+      // After 3 seconds, remove the show class from DIV
+      setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+    }
+  </script>
+
+</body>
+<grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration>
+
+</html>
